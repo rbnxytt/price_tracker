@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:price_tracker/constants.dart';
+import 'package:price_tracker/widgets/custom_button.dart';
 
 class SidePanel extends StatelessWidget {
   const SidePanel({
     Key? key,
+    required this.updateData,
   }) : super(key: key);
+
+  final void Function() updateData;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,7 @@ class SidePanel extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20.0),
-            color: const Color(0xff1E1E1E),
+            color: secondaryBackgroundColor,
           ),
           child: Padding(
             padding: const EdgeInsets.all(15.0),
@@ -32,19 +37,20 @@ class SidePanel extends StatelessWidget {
                           child: Text(
                             'Current Date',
                             style: TextStyle(
-                              fontSize: 20.0,
+                              fontSize: 12.0,
                             ),
                           ),
                         ),
                         ListTile(
+                          minLeadingWidth: 0,
                           leading: const FaIcon(
                             FontAwesomeIcons.calendarDays,
-                            size: 30.0,
+                            size: 20.0,
                             color: Color(0xffE25933),
                           ),
                           title: Text(
                             DateFormat('M/dd/yyyy').format(DateTime.now()),
-                            style: const TextStyle(fontSize: 18.0),
+                            style: const TextStyle(fontSize: 12.0),
                           ),
                         )
                       ],
@@ -53,26 +59,27 @@ class SidePanel extends StatelessWidget {
                 ),
                 Expanded(
                   child: SizedBox(
-                    child: Center(
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Container(
-                          height: 52,
-                          width: 205,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15.0)),
-                          child: const ListTile(
-                            leading: FaIcon(
-                              FontAwesomeIcons.penToSquare,
-                              color: Color(0xffE25933),
-                            ),
-                            title: Text(
+                    child: CustomButton(
+                      onPressed: updateData,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          FaIcon(
+                            FontAwesomeIcons.penToSquare,
+                            color: Color(0xffE25933),
+                            size: 15.0,
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Center(
+                            child: Text(
                               'Update Data',
-                              style: TextStyle(color: Colors.black),
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 10.0),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ),
@@ -81,24 +88,12 @@ class SidePanel extends StatelessWidget {
                   child: SizedBox(
                     child: Align(
                       alignment: Alignment.bottomCenter,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Container(
-                          height: 52,
-                          width: 205,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15.0)),
-                          child: const Center(
-                            child: Text(
-                              'Exit',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ),
+                      child: CustomButton(
+                        child: const Text(
+                          'Exit',
+                          style: TextStyle(fontSize: 12.0, color: Colors.black),
                         ),
+                        onPressed: () {},
                       ),
                     ),
                   ),
