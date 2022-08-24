@@ -53,6 +53,7 @@ class AppDrawer extends StatelessWidget {
                     ),
                   ),
                 ),
+                const VerticalDivider(),
                 Expanded(
                   child: SizedBox(
                     child: Padding(

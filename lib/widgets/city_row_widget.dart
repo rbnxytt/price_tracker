@@ -30,7 +30,7 @@ class CityRowWidget extends StatelessWidget {
                       112,
                     ),
                     fontWeight: FontWeight.w600,
-                    fontSize: 9.0),
+                    fontSize: 10.0),
               ),
             ),
           ),
@@ -41,7 +41,7 @@ class CityRowWidget extends StatelessWidget {
                 style: const TextStyle(
                     color: Color.fromARGB(255, 16, 207, 198),
                     fontWeight: FontWeight.w600,
-                    fontSize: 9.0),
+                    fontSize: 10.0),
               ),
             ),
           ),
@@ -52,7 +52,7 @@ class CityRowWidget extends StatelessWidget {
                 style: const TextStyle(
                     color: Color.fromARGB(255, 189, 226, 24),
                     fontWeight: FontWeight.w600,
-                    fontSize: 9.0),
+                    fontSize: 10.0),
               ),
             ),
           ),
@@ -76,7 +76,7 @@ class CityRowWidget extends StatelessWidget {
                     ),
                     Text(
                       (currentPrice - previousPrice).toStringAsFixed(2),
-                      style: const TextStyle(fontSize: 9.0),
+                      style: const TextStyle(fontSize: 10.0),
                     ),
                     const SizedBox(
                       width: 90.0,

@@ -17,29 +17,31 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void save() {
+      Navigator.pop(context);
+      var snackBar = SnackBar(
+        duration: const Duration(seconds: 2),
+        backgroundColor: Colors.greenAccent,
+        content: Row(
+          children: const [
+            FaIcon(
+              FontAwesomeIcons.check,
+              color: Colors.black,
+            ),
+            Text('  Saved Successfully.'),
+          ],
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         key: _key,
         endDrawer: AppDrawer(
           // Edit the prices here. Contains buttons to update and textfields to enter new prices.
-          saveButton: () {
-            Navigator.pop(context);
-            var snackBar = SnackBar(
-              duration: const Duration(seconds: 2),
-              backgroundColor: Colors.greenAccent,
-              content: Row(
-                children: const [
-                  FaIcon(
-                    FontAwesomeIcons.check,
-                    color: Colors.black,
-                  ),
-                  Text('  Saved Successfully.'),
-                ],
-              ),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          },
+          saveButton: save,
         ),
         backgroundColor: defaultBackgroundColor,
         body: Row(
@@ -115,7 +117,7 @@ class HomePage extends StatelessWidget {
                                                     255, 224, 224, 80)),
                                           ),
                                           const SizedBox(
-                                            width: 200.0,
+                                            width: 122.0,
                                           ),
                                           Text('August 18, 2022',
                                               style: dateTextStyle),
@@ -134,8 +136,7 @@ class HomePage extends StatelessWidget {
                               color: secondaryBackgroundColor,
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                  left: 15.0,
-                                ),
+                                    left: 15.0, right: 15.0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.start,

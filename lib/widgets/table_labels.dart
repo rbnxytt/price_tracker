@@ -9,7 +9,7 @@ class TableLabels extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTextStyle(
       style: const TextStyle(
-          fontSize: 9.0, color: Colors.white, fontWeight: FontWeight.w600),
+          fontSize: 11.0, color: Colors.white, fontWeight: FontWeight.w600),
       child: Row(
         children: [
           const Expanded(
@@ -47,7 +47,7 @@ class TableLabels extends StatelessWidget {
                 ),
                 title: const Text(
                   'Change',
-                  style: TextStyle(fontSize: 9.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
