@@ -8,9 +8,11 @@ class SidePanel extends StatelessWidget {
   const SidePanel({
     Key? key,
     required this.updateData,
+    this.dateTime,
   }) : super(key: key);
 
   final void Function() updateData;
+  final DateTime? dateTime;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class SidePanel extends StatelessWidget {
                             color: Color(0xffE25933),
                           ),
                           title: Text(
-                            DateFormat('M/dd/yyyy').format(DateTime.now()),
+                            DateFormat('M/dd/yyyy').format(dateTime!),
                             style: const TextStyle(fontSize: 12.0),
                           ),
                         )

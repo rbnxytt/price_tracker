@@ -4,8 +4,10 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     Key? key,
     required this.city,
+    this.controller,
   }) : super(key: key);
   final String city;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,8 @@ class CustomTextField extends StatelessWidget {
           ),
         ),
       ),
-      title: const TextField(
+      title: TextField(
+        controller: controller,
         textAlign: TextAlign.center,
         keyboardType: TextInputType.numberWithOptions(decimal: true),
         decoration: InputDecoration(

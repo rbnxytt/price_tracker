@@ -1,8 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:price_tracker/view/side_panel.dart';
-import 'package:price_tracker/widgets/custom_button.dart';
-import 'package:price_tracker/widgets/custom_line_chart.dart';
 import 'package:provider/provider.dart';
 
 import '../model/app_controller.dart';
@@ -23,20 +23,43 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ScrollController? _scrollController;
+  TextEditingController? _gzTextEditingController;
+  TextEditingController? _szTextEditingController;
+  TextEditingController? _hzTextEditingController;
+  TextEditingController? _mmTextEditingController;
+  TextEditingController? _fsTextEditingController;
+  DateTime? _dateTime;
+
+  void _getDateTime() {
+    setState(() {
+      _dateTime = DateTime.now();
+    });
+  }
 
   @override
   void initState() {
-    _scrollController = ScrollController();
+    _gzTextEditingController = TextEditingController();
+    _szTextEditingController = TextEditingController();
+    _hzTextEditingController = TextEditingController();
+    _mmTextEditingController = TextEditingController();
+    _fsTextEditingController = TextEditingController();
+
+    _getDateTime();
     super.initState();
+    Timer.periodic(const Duration(seconds: 1), (_) => _getDateTime());
   }
 
   @override
   void dispose() {
-    _scrollController!.dispose();
+    _gzTextEditingController!.dispose();
+    _szTextEditingController!.dispose();
+    _hzTextEditingController!.dispose();
+    _mmTextEditingController!.dispose();
+    _fsTextEditingController!.dispose();
     super.dispose();
   }
 
+  // Function that saves the data input from AppDrawer, then shows a Snackbar to tell status.
   void save() {
     Navigator.pop(context);
     var snackBar = SnackBar(
@@ -55,9 +78,9 @@ class _HomePageState extends State<HomePage> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+  // Function responsible for toggling between charts.
   void showChart(int index) {
     Provider.of<AppController>(context, listen: false).changeChart(index);
-    setState(() {});
   }
 
   @override
@@ -68,6 +91,13 @@ class _HomePageState extends State<HomePage> {
         resizeToAvoidBottomInset: false,
         key: _key,
         endDrawer: AppDrawer(
+          controllers: [
+            _gzTextEditingController,
+            _szTextEditingController,
+            _hzTextEditingController,
+            _mmTextEditingController,
+            _fsTextEditingController,
+          ],
           // Edit the prices here. Contains buttons to update and textfields to enter new prices.
           saveButton: save,
         ),
@@ -76,6 +106,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             // Contains the left side panel
             SidePanel(
+              dateTime: _dateTime,
               updateData: () {
                 _key.currentState!.openEndDrawer();
               },
@@ -218,6 +249,7 @@ class _HomePageState extends State<HomePage> {
                                                   child: GestureDetector(
                                                     onTap: () {
                                                       showChart(0);
+                                                      setState(() {});
                                                     },
                                                     child: const Text(
                                                       'Guangzhou',
@@ -238,6 +270,7 @@ class _HomePageState extends State<HomePage> {
                                                   child: GestureDetector(
                                                     onTap: () {
                                                       showChart(1);
+                                                      setState(() {});
                                                     },
                                                     child: const Text(
                                                       'Shenzhen',
@@ -258,6 +291,7 @@ class _HomePageState extends State<HomePage> {
                                                   child: GestureDetector(
                                                     onTap: () {
                                                       showChart(2);
+                                                      setState(() {});
                                                     },
                                                     child: const Text(
                                                       'Huizhou',
@@ -278,6 +312,7 @@ class _HomePageState extends State<HomePage> {
                                                   child: GestureDetector(
                                                     onTap: () {
                                                       showChart(3);
+                                                      setState(() {});
                                                     },
                                                     child: const Text(
                                                       'Maoming',
@@ -298,6 +333,7 @@ class _HomePageState extends State<HomePage> {
                                                   child: GestureDetector(
                                                     onTap: () {
                                                       showChart(4);
+                                                      setState(() {});
                                                     },
                                                     child: const Text(
                                                       'Foshan',
@@ -326,7 +362,7 @@ class _HomePageState extends State<HomePage> {
                                               child: Align(
                                                 alignment:
                                                     Alignment.bottomCenter,
-                                                child: GestureDetector(
+                                                child: InkWell(
                                                   onTap: () {},
                                                   child: const Text(
                                                     'Weekly',
@@ -353,7 +389,7 @@ class _HomePageState extends State<HomePage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 9.0,
-                                                      color: Colors.greenAccent,
+                                                      color: Colors.grey,
                                                     ),
                                                     textAlign: TextAlign.center,
                                                   ),
@@ -372,7 +408,7 @@ class _HomePageState extends State<HomePage> {
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 9.0,
-                                                      color: Colors.greenAccent,
+                                                      color: Colors.grey,
                                                     ),
                                                     textAlign: TextAlign.center,
                                                   ),
@@ -411,68 +447,111 @@ class _HomePageState extends State<HomePage> {
                                           MainAxisAlignment.spaceAround,
                                       children: [
                                         Expanded(
-                                          child: Text(
-                                            '${Provider.of<AppController>(context).currentCity} 7-Day Prices View',
-                                            style: const TextStyle(fontSize: 9),
-                                            textAlign: TextAlign.center,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 10.0),
+                                            child: Text(
+                                              '${Provider.of<AppController>(context).currentCity} 7-Day View',
+                                              style: const TextStyle(
+                                                  fontSize: 9,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.amberAccent),
+                                              textAlign: TextAlign.center,
+                                            ),
                                           ),
                                         ),
                                         Expanded(
                                           flex: 5,
-                                          child: Table(
-                                            children: [
-                                              const TableRow(
-                                                children: [
-                                                  SizedBox(
-                                                      child: Center(
-                                                          child: Text(
-                                                    'Date',
-                                                    style:
-                                                        TextStyle(fontSize: 9),
-                                                  ))),
-                                                  SizedBox(
-                                                      child: Center(
-                                                          child: Text(
-                                                    'Prices',
-                                                    style:
-                                                        TextStyle(fontSize: 9),
-                                                  )))
-                                                ],
-                                              ),
-                                              for (int index = 0;
-                                                  index < 7;
-                                                  index++)
-                                                TableRow(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20.0,
+                                                vertical: 5.0),
+                                            child: Table(
+                                              children: [
+                                                const TableRow(
                                                   children: [
                                                     SizedBox(
-                                                      height: 15.0,
                                                       child: Center(
                                                         child: Text(
-                                                          GlobalData
-                                                              .dates[index]!,
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontSize: 9),
+                                                          'Date',
+                                                          style: TextStyle(
+                                                              fontSize: 9,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Colors
+                                                                  .greenAccent),
                                                         ),
                                                       ),
                                                     ),
                                                     SizedBox(
-                                                      height: 15.0,
                                                       child: Center(
-                                                          child: Text(
-                                                        GlobalData
-                                                            .priceList[Provider
-                                                                    .of<AppController>(
-                                                                        context)
-                                                                .currentCity]![index]
-                                                            .toString(),
-                                                        style: const TextStyle(
-                                                            fontSize: 9),
-                                                      )),
+                                                        child: Text(
+                                                          'Prices',
+                                                          style: TextStyle(
+                                                              fontSize: 9,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Colors
+                                                                  .greenAccent),
+                                                        ),
+                                                      ),
                                                     )
                                                   ],
-                                                )
-                                            ],
+                                                ),
+                                                for (int index = 0;
+                                                    index < 7;
+                                                    index++)
+                                                  TableRow(
+                                                    decoration: const BoxDecoration(
+                                                        border: Border(
+                                                            top: BorderSide(
+                                                                color:
+                                                                    Colors.grey,
+                                                                width: 0.25,
+                                                                style:
+                                                                    BorderStyle
+                                                                        .solid),
+                                                            bottom: BorderSide(
+                                                                color:
+                                                                    Colors.grey,
+                                                                width: 0.25,
+                                                                style: BorderStyle
+                                                                    .solid))),
+                                                    children: [
+                                                      SizedBox(
+                                                        height: 15.0,
+                                                        child: Center(
+                                                          child: Text(
+                                                            GlobalData
+                                                                .dates[index]!,
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        9),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        height: 15.0,
+                                                        child: Center(
+                                                            child: Text(
+                                                          GlobalData
+                                                              .priceList[Provider
+                                                                      .of<AppController>(
+                                                                          context)
+                                                                  .currentCity]![index]
+                                                              .toString(),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 9),
+                                                        )),
+                                                      )
+                                                    ],
+                                                  ),
+                                              ],
+                                            ),
                                           ),
                                         )
                                       ],

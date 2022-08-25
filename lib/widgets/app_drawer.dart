@@ -9,9 +9,11 @@ class AppDrawer extends StatelessWidget {
   const AppDrawer({
     Key? key,
     required this.saveButton,
+    required this.controllers,
   }) : super(key: key);
 
   final void Function() saveButton;
+  final List<TextEditingController?> controllers;
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +67,13 @@ class AppDrawer extends StatelessWidget {
                             'Update Prices',
                             style: subheaderTextStyle,
                           ),
-                          for (String city in GlobalData.cities)
+                          for (int index = 0;
+                              index < GlobalData.cities.length;
+                              index++)
                             Expanded(
                               child: CustomTextField(
-                                city: city,
+                                controller: controllers[index],
+                                city: GlobalData.cities[index],
                               ),
                             ),
                         ],
