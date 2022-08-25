@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:price_tracker/constants.dart';
+import 'package:price_tracker/model/constants.dart';
 import 'package:price_tracker/widgets/custom_button.dart';
 
 class SidePanel extends StatelessWidget {
@@ -59,27 +59,29 @@ class SidePanel extends StatelessWidget {
                 ),
                 Expanded(
                   child: SizedBox(
-                    child: CustomButton(
-                      onPressed: updateData,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          FaIcon(
-                            FontAwesomeIcons.penToSquare,
-                            color: Color(0xffE25933),
-                            size: 15.0,
-                          ),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Center(
-                            child: Text(
-                              'Update Data',
-                              style: TextStyle(
-                                  color: Colors.black, fontSize: 10.0),
+                    child: Center(
+                      child: CustomButton(
+                        onPressed: updateData,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            FaIcon(
+                              FontAwesomeIcons.penToSquare,
+                              color: Color(0xffE25933),
+                              size: 15.0,
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            Center(
+                              child: Text(
+                                'Update Data',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 10.0),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:price_tracker/constants.dart';
-import 'package:price_tracker/global_data.dart';
+import 'package:price_tracker/model/constants.dart';
+import 'package:price_tracker/model/global_data.dart';
 
 import 'custom_button.dart';
 import 'custom_textfield.dart';

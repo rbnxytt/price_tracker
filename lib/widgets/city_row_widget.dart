@@ -60,7 +60,6 @@ class CityRowWidget extends StatelessWidget {
             child: Center(
               child: SizedBox(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     currentPrice - previousPrice < 0
                         ? const Icon(

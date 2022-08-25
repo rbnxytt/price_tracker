@@ -29,26 +29,28 @@ class TableLabels extends StatelessWidget {
           ),
           Expanded(
             child: SizedBox(
-              child: ListTile(
-                minLeadingWidth: 5.0,
-                leading: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.arrow_drop_up_sharp,
-                      color: Colors.greenAccent,
-                    ),
-                    Icon(
-                      Icons.arrow_drop_down_sharp,
-                      color: Colors.redAccent,
-                    ),
-                  ],
-                ),
-                title: const Text(
-                  'Change',
-                  style: TextStyle(fontSize: 11.0, fontWeight: FontWeight.bold),
-                ),
+              child: Row(
+                children: [
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        Icons.arrow_drop_up_sharp,
+                        color: Colors.greenAccent,
+                      ),
+                      Icon(
+                        Icons.arrow_drop_down_sharp,
+                        color: Colors.redAccent,
+                      ),
+                    ],
+                  ),
+                  const Text(
+                    'Change',
+                    style:
+                        TextStyle(fontSize: 11.0, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
           ),
