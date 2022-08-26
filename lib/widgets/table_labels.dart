@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../model/app_controller.dart';
@@ -15,14 +16,40 @@ class TableLabels extends StatelessWidget {
           fontSize: 11.0, color: Colors.white, fontWeight: FontWeight.w600),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: SizedBox(
-              child: Text('City'),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 2.0, right: 5.0),
+                    child: FaIcon(
+                      FontAwesomeIcons.city,
+                      size: 10.0,
+                      color: Colors.greenAccent,
+                    ),
+                  ),
+                  Text('City'),
+                ],
+              ),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: SizedBox(
-              child: Text('Current Price (RMB)'),
+              child: Row(
+                children: const [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 2.0, right: 5.0),
+                    child: FaIcon(
+                      FontAwesomeIcons.yenSign,
+                      size: 10.0,
+                      color: Colors.redAccent,
+                    ),
+                  ),
+                  Text('Current Price'),
+                ],
+              ),
             ),
           ),
           const Expanded(

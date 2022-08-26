@@ -23,15 +23,36 @@ class MyApp extends StatelessWidget {
           title: 'Live Price Tracker',
           theme: ThemeData.dark(),
           home: AnimatedSplashScreen(
-              duration: 2000,
-              splash: const FaIcon(
-                FontAwesomeIcons.chartLine,
-                size: 50.0,
-                color: Colors.greenAccent,
-              ),
-              nextScreen: const HomePage(),
-              splashTransition: SplashTransition.rotationTransition,
-              backgroundColor: defaultBackgroundColor)),
+            nextScreen: const SplashScreen(),
+            duration: 1250,
+            splash: const FaIcon(
+              FontAwesomeIcons.piggyBank,
+              size: 50.0,
+              color: Colors.greenAccent,
+            ),
+            splashTransition: SplashTransition.fadeTransition,
+            backgroundColor: defaultBackgroundColor,
+          )),
     );
+  }
+}
+
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSplashScreen(
+        duration: 1500,
+        splash: const FaIcon(
+          FontAwesomeIcons.chartLine,
+          size: 50.0,
+          color: Colors.greenAccent,
+        ),
+        nextScreen: const HomePage(),
+        splashTransition: SplashTransition.scaleTransition,
+        backgroundColor: defaultBackgroundColor);
   }
 }

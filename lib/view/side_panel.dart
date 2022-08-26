@@ -36,13 +36,18 @@ class SidePanel extends StatelessWidget {
                       alignment: Alignment.topCenter,
                       child: ListTile(
                         horizontalTitleGap: 0,
-                        leading: const FaIcon(
-                          FontAwesomeIcons.piggyBank,
-                          color: Colors.greenAccent,
-                        ),
-                        title: Text(
-                          'Live Pig Price Tracker',
-                          style: titleTextStyle.copyWith(fontSize: 11),
+                        leading: Lottie.asset('assets/lottie/piggy-bank.json',
+                            fit: BoxFit.fitHeight),
+                        // leading: const FaIcon(
+                        //   FontAwesomeIcons.piggyBank,
+                        //   color: Colors.greenAccent,
+                        // ),
+                        title: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            'Live Pig Price Tracker',
+                            style: titleTextStyle.copyWith(fontSize: 10),
+                          ),
                         ),
                       ),
                     ),
@@ -85,7 +90,7 @@ class SidePanel extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Lottie.asset('assets/lottie/green-graph.json',
-                            fit: BoxFit.fitWidth, repeat: false),
+                            fit: BoxFit.fitWidth),
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: CustomButton(
