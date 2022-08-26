@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../model/app_controller.dart';
 
 class TableLabels extends StatelessWidget {
   const TableLabels({
@@ -28,30 +31,68 @@ class TableLabels extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: SizedBox(
-              child: Row(
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(
-                        Icons.arrow_drop_up_sharp,
-                        color: Colors.greenAccent,
+            child: Row(
+              children: [
+                SizedBox(
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: IconButton(
+                              onPressed: () {
+                                bool up = true;
+                                int days = Provider.of<AppController>(context,
+                                        listen: false)
+                                    .daysAgo;
+                                Provider.of<AppController>(context,
+                                        listen: false)
+                                    .changeDaysAgo(context, days, up);
+                              },
+                              icon: const Icon(
+                                Icons.arrow_drop_up_sharp,
+                                color: Colors.greenAccent,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: IconButton(
+                              onPressed: () {
+                                bool down = false;
+                                int days = Provider.of<AppController>(context,
+                                        listen: false)
+                                    .daysAgo;
+                                Provider.of<AppController>(context,
+                                        listen: false)
+                                    .changeDaysAgo(context, days, down);
+                              },
+                              icon: const Icon(
+                                Icons.arrow_drop_down_sharp,
+                                color: Colors.redAccent,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      Icon(
-                        Icons.arrow_drop_down_sharp,
-                        color: Colors.redAccent,
-                      ),
-                    ],
+                    ),
+                  ),
+                ),
+                Row(children: [
+                  Text(
+                    '${Provider.of<AppController>(context).daysAgo} day ',
+                    style: const TextStyle(color: Colors.amberAccent),
                   ),
                   const Text(
                     'Change',
                     style:
                         TextStyle(fontSize: 11.0, fontWeight: FontWeight.bold),
                   ),
-                ],
-              ),
+                ]),
+              ],
             ),
           ),
           // const Expanded(

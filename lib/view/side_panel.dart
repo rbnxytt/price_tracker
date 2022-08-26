@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:price_tracker/model/constants.dart';
 import 'package:price_tracker/widgets/custom_button.dart';
 
@@ -26,21 +27,38 @@ class SidePanel extends StatelessWidget {
             color: secondaryBackgroundColor,
           ),
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(5.0),
             child: Column(
               children: [
+                Expanded(
+                  child: SizedBox(
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: ListTile(
+                        horizontalTitleGap: 0,
+                        leading: const FaIcon(
+                          FontAwesomeIcons.piggyBank,
+                          color: Colors.greenAccent,
+                        ),
+                        title: Text(
+                          'Live Pig Price Tracker',
+                          style: titleTextStyle.copyWith(fontSize: 11),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Expanded(
                   child: SizedBox(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Center(
+                        Center(
                           child: Text(
                             'Current Date',
-                            style: TextStyle(
-                              fontSize: 12.0,
-                            ),
+                            style: subheaderTextStyle.copyWith(
+                                color: Colors.amber),
                           ),
                         ),
                         ListTile(
@@ -51,7 +69,7 @@ class SidePanel extends StatelessWidget {
                             color: Color(0xffE25933),
                           ),
                           title: Text(
-                            DateFormat('M/dd/yyyy').format(dateTime!),
+                            DateFormat('yyyy/d/MM').format(dateTime!),
                             style: const TextStyle(fontSize: 12.0),
                           ),
                         )
@@ -60,45 +78,41 @@ class SidePanel extends StatelessWidget {
                   ),
                 ),
                 Expanded(
+                  flex: 2,
                   child: SizedBox(
-                    child: Center(
-                      child: CustomButton(
-                        onPressed: updateData,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            FaIcon(
-                              FontAwesomeIcons.penToSquare,
-                              color: Color(0xffE25933),
-                              size: 15.0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Lottie.asset('assets/lottie/green-graph.json',
+                            fit: BoxFit.fitWidth, repeat: false),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: CustomButton(
+                            onPressed: updateData,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                FaIcon(
+                                  FontAwesomeIcons.penToSquare,
+                                  color: Color(0xffE25933),
+                                  size: 15.0,
+                                ),
+                                SizedBox(
+                                  width: 10.0,
+                                ),
+                                Center(
+                                  child: Text(
+                                    'Update Data',
+                                    style: TextStyle(
+                                        color: Colors.black, fontSize: 10.0),
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            Center(
-                              child: Text(
-                                'Update Data',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 10.0),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: SizedBox(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: CustomButton(
-                        child: const Text(
-                          'Exit',
-                          style: TextStyle(fontSize: 12.0, color: Colors.black),
-                        ),
-                        onPressed: () {},
-                      ),
+                      ],
                     ),
                   ),
                 ),

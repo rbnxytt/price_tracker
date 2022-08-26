@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:price_tracker/model/app_controller.dart';
 import 'package:price_tracker/model/constants.dart';
 import 'package:price_tracker/model/global_data.dart';
+import 'package:provider/provider.dart';
 
 import 'custom_button.dart';
 import 'custom_textfield.dart';
@@ -48,7 +50,11 @@ class AppDrawer extends StatelessWidget {
                                 firstDate: DateTime(2022, 8, 1),
                                 lastDate: DateTime(DateTime.now().year,
                                     DateTime.now().month, DateTime.now().day),
-                                onDateChanged: (date) {}),
+                                onDateChanged: (date) {
+                                  Provider.of<AppController>(context,
+                                          listen: false)
+                                      .changeDate(date);
+                                }),
                           ),
                         ],
                       ),

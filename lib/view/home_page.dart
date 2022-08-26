@@ -11,9 +11,6 @@ import '../model/global_data.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/table_labels.dart';
 
-// Create a key for the home page scaffold.
-final GlobalKey<ScaffoldState> _key = GlobalKey();
-
 // Main page of the app.
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -60,7 +57,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   // Function that saves the data input from AppDrawer, then shows a Snackbar to tell status.
-  void save() {
+  void save(List<String> data, dateTime) {
+    Provider.of<AppController>(context, listen: false).updateData(data);
+
     Navigator.pop(context);
     var snackBar = SnackBar(
       duration: const Duration(seconds: 2),
@@ -83,13 +82,19 @@ class _HomePageState extends State<HomePage> {
     Provider.of<AppController>(context, listen: false).changeChart(index);
   }
 
+  Color cityColor(String city) {
+    return Provider.of<AppController>(context).currentCity == city
+        ? Colors.amberAccent
+        : Colors.lightBlueAccent;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         endDrawerEnableOpenDragGesture: false,
         resizeToAvoidBottomInset: false,
-        key: _key,
+        key: GlobalData.key,
         endDrawer: AppDrawer(
           controllers: [
             _gzTextEditingController,
@@ -99,7 +104,21 @@ class _HomePageState extends State<HomePage> {
             _fsTextEditingController,
           ],
           // Edit the prices here. Contains buttons to update and textfields to enter new prices.
-          saveButton: save,
+          saveButton: () {
+            save([
+              _gzTextEditingController!.text,
+              _szTextEditingController!.text,
+              _hzTextEditingController!.text,
+              _mmTextEditingController!.text,
+              _fsTextEditingController!.text
+            ], GlobalData.dates[0]);
+            _gzTextEditingController!.clear();
+            _szTextEditingController!.clear();
+            _hzTextEditingController!.clear();
+            _mmTextEditingController!.clear();
+            _fsTextEditingController!.clear();
+            setState(() {});
+          },
         ),
         backgroundColor: defaultBackgroundColor,
         body: Row(
@@ -108,7 +127,7 @@ class _HomePageState extends State<HomePage> {
             SidePanel(
               dateTime: _dateTime,
               updateData: () {
-                _key.currentState!.openEndDrawer();
+                GlobalData.key.currentState!.openEndDrawer();
               },
             ),
             // Contains the body of the app
@@ -135,8 +154,9 @@ class _HomePageState extends State<HomePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('Live Price Tracker',
-                                        style: titleTextStyle),
+                                    Text('Market Values',
+                                        style: titleTextStyle.copyWith(
+                                            color: Colors.amberAccent)),
                                     Text('ZHONG SHI LIANG',
                                         style: titleTextStyle)
                                   ],
@@ -155,15 +175,6 @@ class _HomePageState extends State<HomePage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Expanded(
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          'Market Values',
-                                          style: subheaderTextStyle,
-                                        ),
-                                      ),
-                                    ),
                                     Expanded(
                                       child: Row(
                                         mainAxisAlignment:
@@ -203,7 +214,9 @@ class _HomePageState extends State<HomePage> {
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    const TableLabels(), // Table headers
+                                    const Expanded(
+                                        flex: 2,
+                                        child: TableLabels()), // Table headers
                                     const Divider(),
                                     ...Provider.of<AppController>(context)
                                         .data // Holds the price data
@@ -251,11 +264,11 @@ class _HomePageState extends State<HomePage> {
                                                       showChart(0);
                                                       setState(() {});
                                                     },
-                                                    child: const Text(
+                                                    child: Text(
                                                       'Guangzhou',
                                                       style: TextStyle(
-                                                          color: Colors
-                                                              .lightBlueAccent,
+                                                          color: cityColor(
+                                                              'Guangzhou'),
                                                           fontSize: 9.0),
                                                     ),
                                                   ),
@@ -272,11 +285,11 @@ class _HomePageState extends State<HomePage> {
                                                       showChart(1);
                                                       setState(() {});
                                                     },
-                                                    child: const Text(
+                                                    child: Text(
                                                       'Shenzhen',
                                                       style: TextStyle(
-                                                          color: Colors
-                                                              .lightBlueAccent,
+                                                          color: cityColor(
+                                                              'Shenzhen'),
                                                           fontSize: 9.0),
                                                     ),
                                                   ),
@@ -293,11 +306,11 @@ class _HomePageState extends State<HomePage> {
                                                       showChart(2);
                                                       setState(() {});
                                                     },
-                                                    child: const Text(
+                                                    child: Text(
                                                       'Huizhou',
                                                       style: TextStyle(
-                                                          color: Colors
-                                                              .lightBlueAccent,
+                                                          color: cityColor(
+                                                              'Huizhou'),
                                                           fontSize: 9.0),
                                                     ),
                                                   ),
@@ -314,11 +327,11 @@ class _HomePageState extends State<HomePage> {
                                                       showChart(3);
                                                       setState(() {});
                                                     },
-                                                    child: const Text(
+                                                    child: Text(
                                                       'Maoming',
                                                       style: TextStyle(
-                                                          color: Colors
-                                                              .lightBlueAccent,
+                                                          color: cityColor(
+                                                              'Maoming'),
                                                           fontSize: 9.0),
                                                     ),
                                                   ),
@@ -335,11 +348,11 @@ class _HomePageState extends State<HomePage> {
                                                       showChart(4);
                                                       setState(() {});
                                                     },
-                                                    child: const Text(
+                                                    child: Text(
                                                       'Foshan',
                                                       style: TextStyle(
-                                                          color: Colors
-                                                              .lightBlueAccent,
+                                                          color: cityColor(
+                                                              'Foshan'),
                                                           fontSize: 9.0),
                                                     ),
                                                   ),
