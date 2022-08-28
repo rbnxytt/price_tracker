@@ -4,6 +4,7 @@ import 'package:price_tracker/widgets/custom_line_chart.dart';
 class GlobalData {
 // Create a key for the home page scaffold.
   static final GlobalKey<ScaffoldState> key = GlobalKey();
+  static final formKey = GlobalKey<FormState>();
 
   static final List<String> cities = [
     'Guangzhou',

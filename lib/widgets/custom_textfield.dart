@@ -22,11 +22,22 @@ class CustomTextField extends StatelessWidget {
           ),
         ),
       ),
-      title: TextField(
+      title: TextFormField(
+        validator: (value) {
+          try {
+            if (value == null || value.isEmpty || double.parse(value).isNaN) {
+              return 'Check your entries.';
+            }
+          } on FormatException {
+            return 'Enter a valid entry.';
+          }
+          return null;
+        },
+        autocorrect: false,
         controller: controller,
         textAlign: TextAlign.center,
-        keyboardType: TextInputType.numberWithOptions(decimal: true),
-        decoration: InputDecoration(
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+        decoration: const InputDecoration(
           hintText: 'Enter Price Here',
           hintStyle: TextStyle(fontSize: 10.0),
         ),

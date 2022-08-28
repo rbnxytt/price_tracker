@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:price_tracker/view/side_panel.dart';
 import 'package:provider/provider.dart';
 
 import '../model/app_controller.dart';
 import '../model/constants.dart';
+import '../model/database.dart';
 import '../model/global_data.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/table_labels.dart';
@@ -26,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController? _mmTextEditingController;
   TextEditingController? _fsTextEditingController;
   DateTime? _dateTime;
+  Box? box;
 
   void _getDateTime() {
     setState(() {
@@ -35,6 +39,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    openBox();
     _gzTextEditingController = TextEditingController();
     _szTextEditingController = TextEditingController();
     _hzTextEditingController = TextEditingController();
@@ -46,6 +51,10 @@ class _HomePageState extends State<HomePage> {
     Timer.periodic(const Duration(seconds: 1), (_) => _getDateTime());
   }
 
+  void openBox() async {
+    box = await Hive.openBox<Database>('database');
+  }
+
   @override
   void dispose() {
     _gzTextEditingController!.dispose();
@@ -53,28 +62,85 @@ class _HomePageState extends State<HomePage> {
     _hzTextEditingController!.dispose();
     _mmTextEditingController!.dispose();
     _fsTextEditingController!.dispose();
+    box!.close();
     super.dispose();
   }
 
   // Function that saves the data input from AppDrawer, then shows a Snackbar to tell status.
-  void save(List<String> data, dateTime) {
-    Provider.of<AppController>(context, listen: false).updateData(data);
+  void save(List<String> data) {
+    // Provider.of<AppController>(context, listen: false).updateData(data);
 
-    Navigator.pop(context);
-    var snackBar = SnackBar(
-      duration: const Duration(seconds: 2),
-      backgroundColor: Colors.greenAccent,
-      content: Row(
-        children: const [
-          FaIcon(
-            FontAwesomeIcons.check,
-            color: Colors.black,
-          ),
-          Text('  Saved Successfully.'),
-        ],
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    if (GlobalData.formKey.currentState!.validate()) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              actionsAlignment: MainAxisAlignment.center,
+              title: const Text(
+                'Please check if everything is correct.',
+                style: TextStyle(fontSize: 14.0, color: Colors.greenAccent),
+              ),
+              content: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                      'Date: ${DateFormat('yyyy/d/MM').format(Provider.of<AppController>(context).dateTime)}'),
+                  const Divider(),
+                  for (int index = 0; index < GlobalData.cities.length; index++)
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('${GlobalData.cities[index]}: ${data[index]}'),
+                        const Divider()
+                      ],
+                    )
+                ],
+              ),
+              actions: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.white),
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true).pop('dialog');
+                  },
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+                ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(primary: Colors.greenAccent),
+                    onPressed: () {
+                      _gzTextEditingController!.clear();
+                      _szTextEditingController!.clear();
+                      _hzTextEditingController!.clear();
+                      _mmTextEditingController!.clear();
+                      _fsTextEditingController!.clear();
+                      Navigator.of(context, rootNavigator: true).pop('dialog');
+                      // Saves Price data to hive storage
+                      // Provider.of<AppController>(context, listen: false).updateDatabase(data);
+                      Navigator.pop(context);
+                      var snackBar = SnackBar(
+                        duration: const Duration(seconds: 2),
+                        backgroundColor: Colors.greenAccent,
+                        content: Row(
+                          children: const [
+                            FaIcon(
+                              FontAwesomeIcons.check,
+                              color: Colors.black,
+                            ),
+                            Text('  Saved Successfully.'),
+                          ],
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+                    child: const Text('Confirm'))
+              ],
+            );
+          });
+    }
   }
 
   // Function responsible for toggling between charts.
@@ -111,12 +177,7 @@ class _HomePageState extends State<HomePage> {
               _hzTextEditingController!.text,
               _mmTextEditingController!.text,
               _fsTextEditingController!.text
-            ], GlobalData.dates[0]);
-            _gzTextEditingController!.clear();
-            _szTextEditingController!.clear();
-            _hzTextEditingController!.clear();
-            _mmTextEditingController!.clear();
-            _fsTextEditingController!.clear();
+            ]);
             setState(() {});
           },
         ),

@@ -66,23 +66,26 @@ class AppDrawer extends StatelessWidget {
                   child: SizedBox(
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Update Prices',
-                            style: subheaderTextStyle,
-                          ),
-                          for (int index = 0;
-                              index < GlobalData.cities.length;
-                              index++)
-                            Expanded(
-                              child: CustomTextField(
-                                controller: controllers[index],
-                                city: GlobalData.cities[index],
-                              ),
+                      child: Form(
+                        key: GlobalData.formKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Update Prices',
+                              style: subheaderTextStyle,
                             ),
-                        ],
+                            for (int index = 0;
+                                index < GlobalData.cities.length;
+                                index++)
+                              Expanded(
+                                child: CustomTextField(
+                                  controller: controllers[index],
+                                  city: GlobalData.cities[index],
+                                ),
+                              ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

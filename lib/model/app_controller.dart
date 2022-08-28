@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:intl/intl.dart';
+import 'package:price_tracker/model/database.dart';
 import 'package:price_tracker/widgets/city_row_widget.dart';
 
 import 'global_data.dart';
 
 class AppController extends ChangeNotifier {
   // ignore: prefer_final_fields
-  String? _date = GlobalData.dates[0] ?? 'No Data'; // Latest date from data.
+  String? _date = GlobalData.dates[0]; // Latest date from data.
   String? _currentCity() => GlobalData
       .cities[_currentChart]; // Shows the data for corresponding city.
   int _currentChart = 0; // Index for toggling between cities.
@@ -16,8 +18,24 @@ class AppController extends ChangeNotifier {
 
   DateTime? _dateTime;
 
+  DateTime get dateTime => _dateTime ?? DateTime.now();
+
   void changeDate(DateTime date) {
     _dateTime = date;
+  }
+
+  // Adds data to database.
+  Future updateDatabase(List<String> data) async {
+    var box = await Hive.openBox<Database>('database');
+    var priceData = Database(
+      date: _dateTime,
+      gzPrice: double.parse(data[0]),
+      szPrice: double.parse(data[1]),
+      hzPrice: double.parse(data[2]),
+      mmPrice: double.parse(data[3]),
+      fsPrice: double.parse(data[4]),
+    );
+    box.add(priceData);
     notifyListeners();
   }
 

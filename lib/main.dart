@@ -2,12 +2,20 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:price_tracker/model/constants.dart';
+import 'package:price_tracker/model/database.dart';
 import 'package:provider/provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'model/app_controller.dart';
 import 'view/home_page.dart';
 
-void main() {
+void main() async {
+  // Allows for async code in the main method
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Hive
+  await Hive.initFlutter();
+  Hive.registerAdapter(DatabaseAdapter());
   runApp(const MyApp());
 }
 
